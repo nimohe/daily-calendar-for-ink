@@ -118,7 +118,7 @@ export default function App() {
       {/* Top Navigation */}
       <nav className="bg-background flex justify-between items-center w-full px-6 h-16 fixed top-0 z-50">
         <div className="flex items-center space-x-4">
-          <button className="text-primary hover:bg-surface-container-low transition-colors p-2">
+          <button className="text-primary p-2 shadow-none outline-none">
             <Menu size={24} strokeWidth={1.5} />
           </button>
         </div>
@@ -128,7 +128,7 @@ export default function App() {
         <div className="flex items-center space-x-4">
           <button 
             onClick={() => setTimeStyle(prev => prev === 'style1' ? 'style2' : 'style1')}
-            className="text-primary hover:bg-surface-container-low transition-colors p-2 flex items-center gap-2"
+            className="text-primary p-2 flex items-center gap-2 shadow-none outline-none"
             title="切换时间样式"
           >
             {timeStyle === 'style1' ? (

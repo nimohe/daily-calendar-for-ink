@@ -7,9 +7,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'headline': ['"Manrope"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        'body': ['"Work Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        'label': ['"Work Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        'headline': ['system-ui', '-apple-system', 'sans-serif'],
+        'body': ['system-ui', '-apple-system', 'sans-serif'],
+        'label': ['system-ui', '-apple-system', 'sans-serif'],
       },
       colors: {
         'on-background': '#1a1c1c',
