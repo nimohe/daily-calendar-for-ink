@@ -8,6 +8,45 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  button {
+    box-shadow: none !important;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button:focus {
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  button {
+    /* 完全透明背景，无任何颜色/渐变/图片 */
+    background: transparent;
+    /* 移除所有边框（某些浏览器默认边框会模拟立体感） */
+    border: none;
+    /* 确保无文本阴影 */
+    text-shadow: none;
+    /* 你原有的 */
+    box-shadow: none !important;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button:active,
+  button:focus,
+  button:hover {
+    background: transparent;
+    /* 防止交互状态重新出现背景 */
+    border: none;
+    box-shadow: none;
+    outline: none;
+  }
+}
+
+.shadow-none {
+  --tw-shadow: 0 0 #ffff;
+  --tw-shadow-colored: 0 0 #ffff;
 }
 
 .main-calendar-box {
@@ -30,4 +69,3 @@
 .font-clock-style-2 {
   font-family: 'ClockIcons', system-ui, sans-serif;
 }
-
