@@ -259,15 +259,15 @@ export default function App() {
 
                 {/* Center Display Number UI：时间、天数、格言 */}
                 <div className="flex flex-col items-center justify-center flex-grow py-8 landscape:py-2 lg:py-24">
-                  <p className={`font-bold tracking-tight text-primary/100 mt-[30px] pl-[1px] text-center ${
+                  <p className={`font-bold tracking-tight text-primary/80 mt-[30px] pl-[1px] text-center ${
                     timeStyle === 'style1' 
-                      ? 'font-headline text-10xl landscape:text-[9rem] lg:text-[35rem]' 
-                      : 'font-clock-style-2 text-10xl landscape:text-[9rem] lg:text-[35rem]'
+                      ? 'font-headline text-8xl landscape:text-[9rem] lg:text-[35rem]' 
+                      : 'font-clock-style-2 text-8xl landscape:text-[9rem] lg:text-[35rem]'
                   }`}>
                     {formatTime(currentTime)}
                   </p>
                   <div className="flex flex-row items-center justify-center gap-0 mt-4 mb-1 landscape:mb-1">
-                    <h2 className="font-headline font-extrabold text-[4rem] landscape:text-[4rem] leading-[0.8] text-primary/60 hero-date-text">
+                    <h2 className="font-headline font-extrabold text-[4rem] landscape:text-[4rem] leading-[0.8] text-primary/50 hero-date-text">
                       {currentDate.getDate()}
                     </h2>
                     <p className="font-body text-on-surface text-lg landscape:text-xl lg:text-5xl font-medium leading-relaxed text-center max-w-[320px] truncate-2 ml-2">
