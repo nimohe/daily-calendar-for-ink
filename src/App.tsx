@@ -198,13 +198,7 @@ export default function App() {
           <header className="w-full max-w-[300px] mx-auto landscape:mx-0 lg:mx-0 landscape:max-w-[160px] lg:max-w-[230px] grid grid-cols-2 landscape:grid-cols-1 lg:grid-cols-1 gap-4 pt-4 pb-2 landscape:py-6 lg:py-12 landscape:border-r lg:border-r landscape:border-outline-variant lg:border-outline-variant landscape:pr-6 lg:pr-8 flex-shrink-0">
             <div className="flex flex-col">
               <span className="text-tertiary font-headline font-bold text-lg landscape:text-2xl lg:text-2xl leading-tight">
-                {formattedDate}
-              </span>
-              <span className="text-tertiary font-headline font-bold text-lg landscape:text-2xl lg:text-2xl leading-tight">
-                {formattedMonth}
-              </span>
-              <span className="text-tertiary font-headline font-bold text-lg landscape:text-2xl lg:text-2xl leading-tight">
-                {formattedDay}
+                {formattedDate}{formattedMonth}{formattedDay}
               </span>
               <span className="text-tertiary font-body font-medium text-lg landscape:text-xl lg:text-xl leading-tight mt-2">
                 {weekdayName}
@@ -267,12 +261,12 @@ export default function App() {
                 <div className="flex flex-col items-center justify-center flex-grow py-8 landscape:py-2 lg:py-24">
                   <p className={`font-bold tracking-tight text-primary/100 mt-[30px] pl-[1px] text-center ${
                     timeStyle === 'style1' 
-                      ? 'font-headline text-[10rem] landscape:text-[8rem] lg:text-[35rem]' 
-                      : 'font-clock-style-2 text-[10rem] landscape:text-[8rem] lg:text-[35rem]'
+                      ? 'font-headline text-7xl landscape:text-[8rem] lg:text-[35rem]' 
+                      : 'font-clock-style-2 text-7xl landscape:text-[8rem] lg:text-[35rem]'
                   }`}>
                     {formatTime(currentTime)}
                   </p>
-                  <div className="flex flex-row items-center justify-center gap-4 mt-8">
+                  <div className="flex flex-row items-center justify-center gap-4 mt-8 mb-1 landscape:mb-1">
                     <h2 className="font-headline font-extrabold text-[4rem] landscape:text-[4rem] leading-[0.8] text-primary/60 hero-date-text">
                       {currentDate.getDate()}
                     </h2>
