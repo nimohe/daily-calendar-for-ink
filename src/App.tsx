@@ -30,20 +30,17 @@ export default function App() {
       const now = new Date();
       setCurrentTime(now);
       
-      // If it's a new day, update the calendar date automatically
-      // only if the user is currently looking at "today"
-      const today = new Date();
+      // Check if it's a new day compared to currentDate
       if (
-        now.getDate() !== today.getDate() || 
-        now.getMonth() !== today.getMonth() || 
-        now.getFullYear() !== today.getFullYear()
+        now.getDate() !== currentDate.getDate() || 
+        now.getMonth() !== currentDate.getMonth() || 
+        now.getFullYear() !== currentDate.getFullYear()
       ) {
-        // This is a bit redundant with the check above but ensures we sync
-        setCurrentDate(new Date());
+        setCurrentDate(now);
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [currentDate]);
 
   const formatTime = (date: Date) => {
     const hours = String(date.getHours()).padStart(2, '0');
