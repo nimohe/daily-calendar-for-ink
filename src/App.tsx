@@ -13,17 +13,44 @@ import {
   ChevronLeft,
   ChevronRight,
   ToggleLeft,
-  ToggleRight
+  ToggleRight,
+  X
 } from 'lucide-react';
 import { Solar, Lunar } from 'lunar-javascript';
 import { QUOTES, NUMBER_WORDS, MONTH_NAMES_CN, WEEKDAYS_CN } from './constants';
 import { CalendarDay } from './types';
 
+function TestPage() {
+  const [size, setSize] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+    const updateSize = () => {
+      setSize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+    updateSize();
+    window.addEventListener('resize', updateSize);
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+
+  return (
+    <div className="flex flex-col items-center justify-center h-full w-full">
+      <h2 className="font-headline text-2xl mb-8">测试页面</h2>
+      <p className="text-xl">
+        可视区域: {size.width}px × {size.height}px
+      </p>
+    </div>
+  );
+}
+
 export default function App() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentTime, setCurrentTime] = useState(new Date());
   const [timeStyle, setTimeStyle] = useState<'style1' | 'style2'>('style2');
-  const [view, setView] = useState<'daily' | 'month' | 'agenda' | 'profile'>('daily');
+  const [view, setView] = useState<'daily' | 'test'>('daily');
+  const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -102,7 +129,9 @@ export default function App() {
   const monthName = MONTH_NAMES_CN[currentDate.getMonth()];
   const weekdayName = WEEKDAYS_CN[currentDate.getDay()];
   const englishWeekday = currentDate.toLocaleDateString('en-US', { weekday: 'long' });
-  const formattedDate = `${currentDate.getFullYear()}年${String(currentDate.getMonth() + 1).padStart(2, '0')}月${currentDate.getDate()}日`;
+  const formattedDate = `${currentDate.getFullYear()}年`;
+  const formattedMonth = `${String(currentDate.getMonth() + 1).padStart(2, '0')}月`;
+  const formattedDay = `${currentDate.getDate()}日`;
 
   const changeDate = (days: number) => {
     const newDate = new Date(currentDate);
@@ -115,12 +144,15 @@ export default function App() {
       {/* Top Navigation */}
       <nav className="bg-background flex justify-between items-center w-full px-6 h-16 fixed top-0 z-50">
         <div className="flex items-center space-x-4">
-          <button className="text-primary p-2 shadow-none outline-none">
-            <Menu size={24} strokeWidth={1.5} />
+          <button 
+            onClick={() => setShowMenu(!showMenu)}
+            className="text-primary p-2 shadow-none outline-none"
+          >
+            {showMenu ? <X size={24} strokeWidth={1.5} /> : <Menu size={24} strokeWidth={1.5} />}
           </button>
         </div>
         <h1 className="font-headline tracking-widest uppercase text-xl font-bold text-primary">
-          {monthName}
+          {view === 'daily' ? monthName : '测试'}
         </h1>
         <div className="flex items-center space-x-4">
           <button 
@@ -137,17 +169,44 @@ export default function App() {
         </div>
       </nav>
 
+      {/* Dropdown Menu */}
+      {showMenu && (
+        <div className="fixed top-16 left-0 w-full bg-surface-container-lowest border-b border-outline-variant z-40">
+          <button
+            onClick={() => { setView('daily'); setShowMenu(false); }}
+            className={`w-full text-left px-6 py-4 border-b border-outline-variant ${view === 'daily' ? 'bg-primary-fixed text-on-primary-fixed' : ''}`}
+          >
+            日历
+          </button>
+          <button
+            onClick={() => { setView('test'); setShowMenu(false); }}
+            className={`w-full text-left px-6 py-4 ${view === 'test' ? 'bg-primary-fixed text-on-primary-fixed' : ''}`}
+          >
+            测试
+          </button>
+        </div>
+      )}
+
       {/* Main Content */}
-      <main className="flex-grow pt-16 landscape:pt-16 lg:pt-20 pb-0 px-4 flex flex-col items-center justify-center overflow-hidden">
+      <main className={`flex-grow pt-16 pb-8 px-4 flex flex-col items-center justify-center overflow-hidden ${showMenu ? 'pt-24' : ''}`}>
+        {view === 'test' ? (
+          <TestPage />
+        ) : (
         <div className="w-full max-w-[1024px] mx-auto flex flex-col landscape:flex-row lg:flex-row landscape:items-stretch lg:items-stretch landscape:gap-8 lg:gap-12 h-full max-h-[720px] landscape:max-h-[90vh]">
           
           {/* Left Column: Date Info */}
-          <header className="w-full max-w-[340px] mx-auto landscape:mx-0 lg:mx-0 landscape:max-w-[220px] lg:max-w-[240px] grid grid-cols-2 landscape:grid-cols-1 lg:grid-cols-1 gap-4 pt-4 pb-2 landscape:py-6 lg:py-12 landscape:border-r lg:border-r landscape:border-outline-variant lg:border-outline-variant landscape:pr-6 lg:pr-8 flex-shrink-0">
+          <header className="w-full max-w-[300px] mx-auto landscape:mx-0 lg:mx-0 landscape:max-w-[160px] lg:max-w-[230px] grid grid-cols-2 landscape:grid-cols-1 lg:grid-cols-1 gap-4 pt-4 pb-2 landscape:py-6 lg:py-12 landscape:border-r lg:border-r landscape:border-outline-variant lg:border-outline-variant landscape:pr-6 lg:pr-8 flex-shrink-0">
             <div className="flex flex-col">
               <span className="text-tertiary font-headline font-bold text-lg landscape:text-2xl lg:text-2xl leading-tight">
                 {formattedDate}
               </span>
-              <span className="text-tertiary font-body font-medium text-lg landscape:text-xl lg:text-xl leading-tight">
+              <span className="text-tertiary font-headline font-bold text-lg landscape:text-2xl lg:text-2xl leading-tight">
+                {formattedMonth}
+              </span>
+              <span className="text-tertiary font-headline font-bold text-lg landscape:text-2xl lg:text-2xl leading-tight">
+                {formattedDay}
+              </span>
+              <span className="text-tertiary font-body font-medium text-lg landscape:text-xl lg:text-xl leading-tight mt-2">
                 {weekdayName}
               </span>
             </div>
@@ -158,16 +217,11 @@ export default function App() {
               <span className="text-on-surface-variant font-body text-sm landscape:text-base lg:text-base mt-1">
                 {dayData.zodiacYear}
               </span>
-              <div className="hidden landscape:block mt-4 pt-4 border-t border-outline-variant">
-                <p className="font-body text-on-surface text-sm lg:text-base font-medium leading-relaxed italic">
-                  {dayData.quote.chinese}
-                </p>
-              </div>
             </div>
           </header>
 
           {/* Right Column: Main Calendar Box */}
-          <section className="w-full max-w-[340px] landscape:max-w-none lg:max-w-none landscape:flex-1 lg:flex-1 mx-auto main-calendar-box bg-surface-container-lowest flex flex-col items-center flex-grow mb-4 landscape:mb-2 relative overflow-hidden">
+          <section className="w-full max-w-[340px] landscape:max-w-none lg:max-w-none landscape:flex-1 lg:flex-1 mx-auto main-calendar-box bg-surface-container-lowest flex flex-col items-center flex-grow mb-1 landscape:mb-1 relative overflow-hidden py-8">
             {/* Navigation Arrows (Hidden in original image but useful for app) */}
             <button 
               onClick={() => changeDate(-1)}
@@ -209,35 +263,29 @@ export default function App() {
                   )}
                 </div>
 
-                {/* Center Display Number */}
+                {/* Center Display Number UI：时间、天数、格言 */}
                 <div className="flex flex-col items-center justify-center flex-grow py-8 landscape:py-2 lg:py-24">
-                  <h2 className="font-headline font-extrabold text-[12rem] landscape:text-[8rem] leading-[0.8] text-primary/80 hero-date-text">
-                    {currentDate.getDate()}
-                  </h2>
-                  <p className={`font-bold tracking-tight text-primary/60 mt-[30px] pl-[1px] text-center ${
+                  <p className={`font-bold tracking-tight text-primary/100 mt-[30px] pl-[1px] text-center ${
                     timeStyle === 'style1' 
-                      ? 'font-headline text-7xl landscape:text-5xl lg:text-9xl' 
-                      : 'font-clock-style-2 text-7xl landscape:text-6xl lg:text-8xl'
+                      ? 'font-headline text-[10rem] landscape:text-[8rem] lg:text-[35rem]' 
+                      : 'font-clock-style-2 text-[10rem] landscape:text-[8rem] lg:text-[35rem]'
                   }`}>
                     {formatTime(currentTime)}
                   </p>
-                </div>
-
-                {/* Bottom Section Inside Box */}
-                <footer className="w-full mt-auto landscape:hidden">
-                  <div className="w-full h-[1px] bg-outline-variant"></div>
-                  <div className="pt-8 pb-12 lg:pt-12 lg:pb-20 px-6 lg:px-10 flex flex-col items-center justify-center text-center">
-                    <div className="space-y-2 w-full max-w-2xl relative -top-[0.5em]">
-                      <p className="font-body text-on-surface text-xl lg:text-3xl font-medium leading-relaxed">
-                        {dayData.quote.chinese}
-                      </p>
-                    </div>
+                  <div className="flex flex-row items-center justify-center gap-4 mt-8">
+                    <h2 className="font-headline font-extrabold text-[4rem] landscape:text-[4rem] leading-[0.8] text-primary/60 hero-date-text">
+                      {currentDate.getDate()}
+                    </h2>
+                    <p className="font-body text-on-surface text-lg landscape:text-xl lg:text-5xl font-medium leading-relaxed text-center max-w-[320px] truncate-2 ml-2">
+                      {dayData.quote.chinese}
+                    </p>
                   </div>
-                </footer>
+                </div>
               </motion.div>
             </AnimatePresence>
           </section>
         </div>
+        )}
       </main>
     </div>
   );

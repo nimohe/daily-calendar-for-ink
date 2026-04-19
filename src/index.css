@@ -55,7 +55,7 @@
 
 @media (min-width: 768px) {
   .hero-date-text {
-    font-size: clamp(12rem, 25vh, 20rem);
+    font-size: clamp(6rem, 15vh, 10rem);
   }
 }
 
@@ -68,4 +68,11 @@
 
 .font-clock-style-2 {
   font-family: 'ClockIcons', system-ui, sans-serif;
+}
+
+.truncate-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }

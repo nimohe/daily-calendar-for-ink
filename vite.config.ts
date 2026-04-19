@@ -21,6 +21,18 @@ export default defineConfig(({mode}) => {
   return {
     // base: '/daily-calendar-for-ink/',
     base: '/',
+    build: {
+      chunkSizeWarningLimit: 1000,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vendor-react': ['react', 'react-dom'],
+            'vendor-motion': ['motion'],
+            'vendor-lunar': ['lunar-javascript'],
+          },
+        },
+      },
+    },
     plugins: [
       react(),
       legacy({
