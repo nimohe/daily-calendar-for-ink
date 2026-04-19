@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect, ReactNode } from 'react';
+import { useState, useEffect } from 'react';
+import type { ReactNode } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Menu, 
@@ -130,6 +131,7 @@ export default function App() {
   const weekdayName = WEEKDAYS_CN[currentDate.getDay()];
   const englishWeekday = currentDate.toLocaleDateString('en-US', { weekday: 'long' });
   const formattedDate = `${currentDate.getFullYear()}年`;
+  const formattedDateStr = `${currentDate.getFullYear()}年${String(currentDate.getMonth() + 1).padStart(2, '0')}月${currentDate.getDate()}日`;
   const formattedMonth = `${String(currentDate.getMonth() + 1).padStart(2, '0')}月`;
   const formattedDay = `${currentDate.getDate()}日`;
 
@@ -195,16 +197,21 @@ export default function App() {
         <div className="w-full max-w-[1024px] mx-auto flex flex-col landscape:flex-row lg:flex-row landscape:items-stretch lg:items-stretch landscape:gap-8 lg:gap-12 h-full max-h-[720px] landscape:max-h-[90vh]">
           
           {/* Left Column: Date Info */}
-          <header className="w-full max-w-[300px] mx-auto landscape:mx-0 lg:mx-0 landscape:max-w-[160px] lg:max-w-[230px] grid grid-cols-2 landscape:grid-cols-1 lg:grid-cols-1 gap-4 pt-4 pb-2 landscape:py-6 lg:py-12 landscape:border-r lg:border-r landscape:border-outline-variant lg:border-outline-variant landscape:pr-6 lg:pr-8 flex-shrink-0">
+          <header className="w-full max-w-[300px] mx-auto landscape:mx-0 lg:mx-0 landscape:max-w-[160px] lg:max-w-[230px] grid grid-cols-2 landscape:grid-cols-1 lg:grid-cols-1 gap-4 pt-4 pb-2 landscape:py-6 lg:py-12 flex-shrink-0">
             <div className="flex flex-col">
-              <span className="text-tertiary font-headline font-bold text-lg landscape:text-2xl lg:text-2xl leading-tight">
-                {formattedDate}{formattedMonth}{formattedDay}
-              </span>
+              <div className="text-tertiary font-headline font-bold text-sm landscape:text-2xl lg:text-2xl leading-tight whitespace-nowrap">
+                <span className="inline landscape:hidden">{formattedDateStr}</span>
+              </div>
+              <div className="hidden landscape:block text-tertiary font-headline font-bold text-2xl lg:text-2xl leading-tight">
+                <div>{formattedDate}</div>
+                <div>{formattedMonth}</div>
+                <div>{formattedDay}</div>
+              </div>
               <span className="text-tertiary font-body font-medium text-lg landscape:text-xl lg:text-xl leading-tight mt-2">
                 {weekdayName}
               </span>
             </div>
-            <div className="flex flex-col items-end landscape:items-start lg:items-start border-l landscape:border-l-0 lg:border-l-0 border-outline-variant pl-4 landscape:pl-0 lg:pl-0 landscape:mt-6 lg:mt-6">
+            <div className="flex flex-col items-end landscape:items-start lg:items-start pl-4 landscape:pl-0 lg:pl-0 landscape:mt-6 lg:mt-6">
               <span className="text-on-surface-variant font-body text-sm landscape:text-base lg:text-base">
                 {dayData.lunarDate}
               </span>
